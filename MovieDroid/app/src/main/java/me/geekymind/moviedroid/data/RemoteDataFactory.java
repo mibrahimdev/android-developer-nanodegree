@@ -1,10 +1,7 @@
 package me.geekymind.moviedroid.data;
 
-import android.content.Context;
-import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import java.io.IOException;
-import java.util.concurrent.TimeUnit;
 import me.geekymind.moviedroid.BuildConfig;
 import okhttp3.HttpUrl;
 import okhttp3.Interceptor;
@@ -20,6 +17,9 @@ import retrofit2.converter.gson.GsonConverterFactory;
  * Created by Mohamed Ibrahim on 3/8/18.
  */
 public class RemoteDataFactory {
+
+  private RemoteDataFactory() {
+  }
 
   private static final String BASE_URL = "http://api.themoviedb.org/3/";
 
@@ -51,7 +51,7 @@ public class RemoteDataFactory {
       Request original = chain.request();
       HttpUrl originalHttpUrl = original.url();
       HttpUrl url =
-          originalHttpUrl.newBuilder().addQueryParameter("api_key=", BuildConfig.API_KEY).build();
+          originalHttpUrl.newBuilder().addQueryParameter("api_key", BuildConfig.API_KEY).build();
 
       Request.Builder requestBuilder = original.newBuilder().url(url);
       Request request = requestBuilder.build();
