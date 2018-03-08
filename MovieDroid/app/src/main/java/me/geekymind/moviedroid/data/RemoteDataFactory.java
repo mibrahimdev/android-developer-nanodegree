@@ -3,9 +3,14 @@ package me.geekymind.moviedroid.data;
 import android.content.Context;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 import me.geekymind.moviedroid.BuildConfig;
+import okhttp3.HttpUrl;
+import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
@@ -29,12 +34,28 @@ public class RemoteDataFactory {
 
   private static OkHttpClient getOkHttpClient() {
     final OkHttpClient.Builder clientBuilder =
-        new OkHttpClient.Builder().addInterceptor(loggingInterceptor());
+        new OkHttpClient.Builder().addInterceptor(new AuthorizationInterceptor())
+            .addInterceptor(loggingInterceptor());
     return clientBuilder.build();
   }
 
   private static HttpLoggingInterceptor loggingInterceptor() {
     return new HttpLoggingInterceptor().setLevel(
         BuildConfig.DEBUG ? HttpLoggingInterceptor.Level.BODY : HttpLoggingInterceptor.Level.NONE);
+  }
+
+  private static class AuthorizationInterceptor implements Interceptor {
+
+    @Override
+    public Response intercept(Chain chain) throws IOException {
+      Request original = chain.request();
+      HttpUrl originalHttpUrl = original.url();
+      HttpUrl url =
+          originalHttpUrl.newBuilder().addQueryParameter("api_key=", BuildConfig.API_KEY).build();
+
+      Request.Builder requestBuilder = original.newBuilder().url(url);
+      Request request = requestBuilder.build();
+      return chain.proceed(request);
+    }
   }
 }
