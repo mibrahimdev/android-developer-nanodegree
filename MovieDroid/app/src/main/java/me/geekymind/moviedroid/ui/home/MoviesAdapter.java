@@ -1,13 +1,14 @@
 package me.geekymind.moviedroid.ui.home;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.databinding.DataBindingUtil;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.support.v7.graphics.Palette;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
@@ -58,11 +59,38 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MoviesView
     }
 
     void bind(Movie movie) {
+      Context context = binding.movieTitle.getContext();
+      Resources resources = context.getResources();
+      int defaultColor = resources.getColor(R.color.blue_grey_900);
       binding.movieTitle.setText(movie.getTitle());
       binding.releaseYear.setText(movie.getReleaseDate());
       Picasso.get().setLoggingEnabled(true);
-      Picasso.get().load(movie.getPosterPath()).into(binding.moviePoster);
+      Picasso.get()
+          .load(movie.getPosterPath())
+          .into(new Target() {
+            @Override
+            public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+              Palette.from(bitmap).generate(asyncListener -> {
+                // access palette colors here
+                int darkMutedColor = asyncListener.getDarkMutedColor(defaultColor);
+                binding.textsLayout.setBackgroundColor(darkMutedColor);
+                binding.posterCard.setCardBackgroundColor(darkMutedColor);
+                binding.moviePoster.setImageDrawable(new BitmapDrawable(resources, bitmap));
+              });
+            }
 
+            @Override
+            public void onBitmapFailed(Exception e, Drawable errorDrawable) {
+              binding.moviePoster.setImageDrawable(
+                  resources.getDrawable(R.drawable.ic_error_outline_white_24dp));
+            }
+
+            @Override
+            public void onPrepareLoad(Drawable placeHolderDrawable) {
+              binding.moviePoster.setImageDrawable(
+                  resources.getDrawable(R.drawable.ic_local_movies_white_24dp));
+            }
+          });
     }
   }
 }
