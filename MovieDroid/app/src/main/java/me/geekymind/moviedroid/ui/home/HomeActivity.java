@@ -85,7 +85,7 @@ public class HomeActivity extends AppCompatActivity {
   private void setupRecycler() {
     moviesAdapter = new MoviesAdapter();
     RecyclerView recyclerView = viewDataBinding.recyclerView;
-    GridLayoutManager layoutManager = new GridLayoutManager(this, 2);
+    GridLayoutManager layoutManager = new GridLayoutManager(this, 3);
     recyclerView.setLayoutManager(layoutManager);
     recyclerView.setHasFixedSize(true);
     recyclerView.setAdapter(moviesAdapter);
