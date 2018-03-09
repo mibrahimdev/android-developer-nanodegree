@@ -7,6 +7,7 @@ apply plugin: 'kotlin-android-extensions'
 android {
   compileSdkVersion 26
   buildToolsVersion "26.0.2"
+
   defaultConfig {
     applicationId "me.geekymind.moviedroid"
     minSdkVersion 17
@@ -27,6 +28,10 @@ android {
     sourceCompatibility JavaVersion.VERSION_1_8
     targetCompatibility JavaVersion.VERSION_1_8
   }
+
+  dataBinding {
+    enabled = true
+  }
 }
 
 dependencies {
@@ -36,6 +41,10 @@ dependencies {
   testImplementation 'junit:junit:4.12'
   androidTestImplementation 'com.android.support.test:runner:1.0.1'
   androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
+
+  //arch components
+  implementation "android.arch.lifecycle:extensions:1.1.0"
+
 
   //Networking
   implementation "com.squareup.retrofit2:retrofit:2.3.0"
@@ -56,5 +65,9 @@ dependencies {
   implementation "com.android.support:palette-v7:26.1.0"
   implementation "com.android.support:design:26.1.0"
 
+  //Image loading
+  implementation 'com.squareup.picasso:picasso:2.71828'
+
+  //Logging
   implementation 'com.jakewharton.timber:timber:4.6.1'
 }

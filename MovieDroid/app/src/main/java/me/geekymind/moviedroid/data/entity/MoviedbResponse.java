@@ -14,6 +14,9 @@ public class MoviedbResponse {
   @SerializedName("total_results")
   private Long TotalResults;
 
+  public MoviedbResponse() {
+  }
+
   public Long getPage() {
     return Page;
   }

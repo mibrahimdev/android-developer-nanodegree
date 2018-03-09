@@ -1,4 +1,4 @@
-package me.geekymind.moviedroid.data;
+package me.geekymind.moviedroid.data.remote;
 
 import io.reactivex.Single;
 import me.geekymind.moviedroid.data.entity.MoviedbResponse;

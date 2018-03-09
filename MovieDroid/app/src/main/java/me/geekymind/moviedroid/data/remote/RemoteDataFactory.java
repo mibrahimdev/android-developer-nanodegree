@@ -1,8 +1,10 @@
-package me.geekymind.moviedroid.data;
+package me.geekymind.moviedroid.data.remote;
 
+import android.support.annotation.NonNull;
 import com.google.gson.GsonBuilder;
 import java.io.IOException;
 import me.geekymind.moviedroid.BuildConfig;
+import me.geekymind.moviedroid.data.remote.MovieRemote;
 import okhttp3.HttpUrl;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
@@ -21,13 +23,13 @@ public class RemoteDataFactory {
   private RemoteDataFactory() {
   }
 
-  private static final String BASE_URL = "http://api.themoviedb.org/3/";
+  public static final String BASE_URL = "http://api.themoviedb.org/3/";
 
   public static MovieRemote newMovieRemote() {
     Retrofit retrofit = new Retrofit.Builder().baseUrl(BASE_URL)
         .client(getOkHttpClient())
-        .addConverterFactory(GsonConverterFactory.create(new GsonBuilder().create()))
         .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+        .addConverterFactory(GsonConverterFactory.create(new GsonBuilder().create()))
         .build();
     return retrofit.create(MovieRemote.class);
   }
@@ -47,7 +49,7 @@ public class RemoteDataFactory {
   private static class AuthorizationInterceptor implements Interceptor {
 
     @Override
-    public Response intercept(Chain chain) throws IOException {
+    public Response intercept(@NonNull Chain chain) throws IOException {
       Request original = chain.request();
       HttpUrl originalHttpUrl = original.url();
       HttpUrl url =

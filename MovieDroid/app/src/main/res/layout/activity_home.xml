@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    >
+  <RelativeLayout
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      tools:context="me.geekymind.moviedroid.ui.home.HomeActivity"
+      >
+
+    <include
+        layout="@layout/toolbar_home"
+        android:id="@+id/toolbar_home"
+        />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/toolbar_home"
+        android:layout_margin="4dp"
+        >
+
+      <android.support.v7.widget.RecyclerView
+          android:id="@+id/recycler_view"
+          android:layout_width="match_parent"
+          android:layout_height="match_parent"
+          app:layoutManager="GridLayoutManager"
+          app:spanCount="2"
+          tools:listitem="@layout/grid_item_movie"
+          >
+      </android.support.v7.widget.RecyclerView>
+    </FrameLayout>
+
+  </RelativeLayout>
+</layout>

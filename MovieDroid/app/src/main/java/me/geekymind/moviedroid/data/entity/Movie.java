@@ -2,8 +2,12 @@ package me.geekymind.moviedroid.data.entity;
 
 import com.google.gson.annotations.SerializedName;
 import java.util.List;
+import me.geekymind.moviedroid.data.remote.MovieRemote;
+import me.geekymind.moviedroid.data.remote.RemoteDataFactory;
 
 public class Movie {
+
+  private static final String IMAGE_BASE_URL = "http://image.tmdb.org/t/p/w185/";
 
   @SerializedName("adult")
   private Boolean Adult;
@@ -30,9 +34,9 @@ public class Movie {
   @SerializedName("video")
   private Boolean Video;
   @SerializedName("vote_average")
-  private Long VoteAverage;
+  private double VoteAverage;
   @SerializedName("vote_count")
-  private Long VoteCount;
+  private double VoteCount;
 
   public Boolean getAdult() {
     return Adult;
@@ -99,7 +103,7 @@ public class Movie {
   }
 
   public String getPosterPath() {
-    return PosterPath;
+    return IMAGE_BASE_URL + PosterPath;
   }
 
   public void setPosterPath(String posterPath) {
@@ -130,7 +134,7 @@ public class Movie {
     Video = video;
   }
 
-  public Long getVoteAverage() {
+  public double getVoteAverage() {
     return VoteAverage;
   }
 
@@ -138,7 +142,7 @@ public class Movie {
     VoteAverage = voteAverage;
   }
 
-  public Long getVoteCount() {
+  public double getVoteCount() {
     return VoteCount;
   }
 
