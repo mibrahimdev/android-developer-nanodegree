@@ -1,3 +1,6 @@
 <resources>
   <string name="app_name">MovieDroid</string>
+  <string name="most_popular">Most Popular</string>
+  <string name="top_rated">Top Rated</string>
+  <string name="filter">Filter</string>
 </resources>

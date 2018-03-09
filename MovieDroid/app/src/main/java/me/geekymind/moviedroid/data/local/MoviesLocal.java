@@ -5,4 +5,7 @@ package me.geekymind.moviedroid.data.local;
  */
 public interface MoviesLocal {
 
+  public void saveFilter(String filter);
+
+  public String getFilter();
 }
