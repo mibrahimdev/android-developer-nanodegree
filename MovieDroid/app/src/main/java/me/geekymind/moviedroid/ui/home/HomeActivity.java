@@ -31,7 +31,14 @@ public class HomeActivity extends AppCompatActivity {
     homeViewModel = ViewModelProviders.of(this).get(HomeViewModel.class);
     setSupportActionBar(findViewById(R.id.toolbar));
     setupRecycler();
+    setupLoading();
     loadMovies();
+  }
+
+  private void setupLoading() {
+    homeViewModel.loading()
+        .subscribe(aBoolean -> viewDataBinding.swipeToRefresh.setRefreshing(aBoolean));
+    viewDataBinding.swipeToRefresh.setOnRefreshListener(this::loadMovies);
   }
 
   @Override

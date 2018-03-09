@@ -11,6 +11,8 @@ public class PreferenceHelper implements MoviesLocal {
 
   private static final String FILE_NAME = "MovieDroid";
 
+  private static final String FILTER_KEY = "FILTER_KEY";
+
   private final SharedPreferences preferences;
 
   public PreferenceHelper(Context context) {
@@ -19,11 +21,11 @@ public class PreferenceHelper implements MoviesLocal {
 
   @Override
   public void saveFilter(String filter) {
-    preferences.edit().putString("FILTER_KEY", filter).apply();
+    preferences.edit().putString(FILTER_KEY, filter).apply();
   }
 
   @Override
   public String getFilter() {
-    return preferences.getString(FILE_NAME, Filter.POPULAR);
+    return preferences.getString(FILTER_KEY, Filter.POPULAR);
   }
 }
