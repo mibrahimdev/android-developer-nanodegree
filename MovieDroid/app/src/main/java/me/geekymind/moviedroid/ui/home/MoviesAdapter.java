@@ -1,7 +1,7 @@
 package me.geekymind.moviedroid.ui.home;
 
+import android.app.ActivityOptions;
 import android.content.Context;
-import android.content.Intent;
 import android.content.res.Resources;
 import android.databinding.DataBindingUtil;
 import android.graphics.Bitmap;
@@ -10,6 +10,7 @@ import android.graphics.drawable.Drawable;
 import android.support.v7.graphics.Palette;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
@@ -68,7 +69,18 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MoviesView
       binding.releaseYear.setText(movie.getReleaseDate());
 
       binding.posterCard.setOnClickListener(v -> {
-        context.startActivity(MovieActivity.startMovieActivityIntent(context, movie));
+
+        View sharedView = binding.moviePoster;
+        String transitionName = resources.getString(R.string.poster);
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+          ActivityOptions transitionActivityOptions =
+              ActivityOptions.makeSceneTransitionAnimation((HomeActivity) context, sharedView,
+                  transitionName);
+          context.startActivity(MovieActivity.startMovieActivityIntent(context, movie),
+              transitionActivityOptions.toBundle());
+        } else {
+          context.startActivity(MovieActivity.startMovieActivityIntent(context, movie));
+        }
       });
 
       Picasso.get().load(movie.getPosterPath()).into(new Target() {
