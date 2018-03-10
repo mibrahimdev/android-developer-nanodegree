@@ -14,7 +14,6 @@ public class AppDependencies {
   }
 
   private static PreferenceHelper prefHelperInstance;
-  private static MovieRemote movieRemote;
 
   public static void createGraph(Application application) {
     if (prefHelperInstance == null) {
@@ -23,10 +22,17 @@ public class AppDependencies {
   }
 
   public static PreferenceHelper getPrefHelperInstance() {
+    checkNotNull(prefHelperInstance);
     return prefHelperInstance;
   }
 
   public static MovieRemote getMovieRemote() {
     return RemoteDataFactory.newMovieRemote();
+  }
+
+  private static <T> void checkNotNull(T clazz) {
+    if (clazz == null) {
+      throw new IllegalStateException("You must initialize AppDependencies graph first");
+    }
   }
 }

@@ -23,7 +23,7 @@ public class RemoteDataFactory {
   private RemoteDataFactory() {
   }
 
-  public static final String BASE_URL = "http://api.themoviedb.org/3/";
+  private static final String BASE_URL = "http://api.themoviedb.org/3/";
 
   public static MovieRemote newMovieRemote() {
     Retrofit retrofit = new Retrofit.Builder().baseUrl(BASE_URL)
