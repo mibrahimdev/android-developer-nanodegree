@@ -7,7 +7,6 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
@@ -42,15 +41,8 @@ public class HomeActivity extends AppCompatActivity {
   }
 
   @Override
-  public boolean onPrepareOptionsMenu(Menu menu) {
-    menu.clear();
-    getMenuInflater().inflate(R.menu.menu_home, menu);
-    return super.onPrepareOptionsMenu(menu);
-  }
-
-  @Override
   public boolean onCreateOptionsMenu(Menu menu) {
-    getMenuInflater().inflate(R.menu.menu_home, menu);
+    getMenuInflater().inflate(R.menu.menu_home_activity, menu);
     return super.onCreateOptionsMenu(menu);
   }
 

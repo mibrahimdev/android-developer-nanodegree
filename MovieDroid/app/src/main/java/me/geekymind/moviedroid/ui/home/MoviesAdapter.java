@@ -1,6 +1,7 @@
 package me.geekymind.moviedroid.ui.home;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.databinding.DataBindingUtil;
 import android.graphics.Bitmap;
@@ -17,6 +18,7 @@ import java.util.List;
 import me.geekymind.moviedroid.R;
 import me.geekymind.moviedroid.data.entity.Movie;
 import me.geekymind.moviedroid.databinding.GridItemMovieBinding;
+import me.geekymind.moviedroid.ui.movie.MovieActivity;
 
 /**
  * Created by Mohamed Ibrahim on 3/9/18.
@@ -64,33 +66,34 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MoviesView
       int defaultColor = resources.getColor(R.color.blue_grey_900);
       binding.movieTitle.setText(movie.getTitle());
       binding.releaseYear.setText(movie.getReleaseDate());
-      Picasso.get().setLoggingEnabled(true);
-      Picasso.get()
-          .load(movie.getPosterPath())
-          .into(new Target() {
-            @Override
-            public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-              Palette.from(bitmap).generate(asyncListener -> {
-                // access palette colors here
-                int darkMutedColor = asyncListener.getDarkMutedColor(defaultColor);
-                binding.textsLayout.setBackgroundColor(darkMutedColor);
-                binding.posterCard.setCardBackgroundColor(darkMutedColor);
-                binding.moviePoster.setImageDrawable(new BitmapDrawable(resources, bitmap));
-              });
-            }
 
-            @Override
-            public void onBitmapFailed(Exception e, Drawable errorDrawable) {
-              binding.moviePoster.setImageDrawable(
-                  resources.getDrawable(R.drawable.ic_error_outline_white_24dp));
-            }
+      binding.posterCard.setOnClickListener(v -> {
+        context.startActivity(MovieActivity.startMovieActivityIntent(context, movie));
+      });
 
-            @Override
-            public void onPrepareLoad(Drawable placeHolderDrawable) {
-              binding.moviePoster.setImageDrawable(
-                  resources.getDrawable(R.drawable.ic_local_movies_white_24dp));
-            }
+      Picasso.get().load(movie.getPosterPath()).into(new Target() {
+        @Override
+        public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+          Palette.from(bitmap).generate(asyncListener -> {
+            int darkMutedColor = asyncListener.getDarkMutedColor(defaultColor);
+            binding.textsLayout.setBackgroundColor(darkMutedColor);
+            binding.posterCard.setCardBackgroundColor(darkMutedColor);
+            binding.moviePoster.setImageDrawable(new BitmapDrawable(resources, bitmap));
           });
+        }
+
+        @Override
+        public void onBitmapFailed(Exception e, Drawable errorDrawable) {
+          binding.moviePoster.setImageDrawable(
+              resources.getDrawable(R.drawable.ic_error_outline_white_24dp));
+        }
+
+        @Override
+        public void onPrepareLoad(Drawable placeHolderDrawable) {
+          binding.moviePoster.setImageDrawable(
+              resources.getDrawable(R.drawable.ic_local_movies_white_24dp));
+        }
+      });
     }
   }
 }
