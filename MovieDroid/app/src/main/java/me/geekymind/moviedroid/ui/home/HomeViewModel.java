@@ -3,7 +3,6 @@ package me.geekymind.moviedroid.ui.home;
 import android.arch.lifecycle.ViewModel;
 import io.reactivex.Observable;
 import io.reactivex.Single;
-import io.reactivex.SingleSource;
 import io.reactivex.SingleTransformer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.subjects.PublishSubject;
@@ -43,7 +42,7 @@ public class HomeViewModel extends ViewModel {
 
   private <T> SingleTransformer<T, T> loadingTransformer() {
     return upstream -> upstream.doOnSubscribe(disposable -> isLoading.onNext(true))
-        .doAfterSuccess(movies -> isLoading.onNext(false));
+        .doAfterTerminate(() -> isLoading.onNext(false));
   }
 
   @Override
