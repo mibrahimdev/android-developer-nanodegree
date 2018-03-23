@@ -5,4 +5,6 @@
   <string name="filter">Filter</string>
   <string name="share">Share</string>
   <string name="poster">MoviePoster</string>
+  <string name="trailers">Trailers</string>
+  <string name="reviews">Reviews</string>
 </resources>

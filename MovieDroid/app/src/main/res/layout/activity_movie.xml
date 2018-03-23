@@ -109,16 +109,86 @@
               tools:text="@tools:sample/lorem/random"
               />
 
-
-          <android.support.v7.widget.RecyclerView
-              android:id="@+id/trailers"
+          <LinearLayout
+              android:id="@+id/trailers_layout"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
               android:layout_below="@id/movie_description"
-              android:layout_margin="8dp"
+              android:gravity="center"
+              android:orientation="vertical"
               >
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_margin="8dp"
+                android:background="@color/white"
+                />
 
-          </android.support.v7.widget.RecyclerView>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/trailers"
+                android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+                android:textColor="@color/white"
+                />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_margin="8dp"
+                android:background="@color/white"
+                />
+
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/trailers"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                >
+
+            </android.support.v7.widget.RecyclerView>
+          </LinearLayout>
+
+          <LinearLayout
+              android:id="@+id/reviews"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:layout_below="@id/trailers_layout"
+              android:gravity="center"
+              android:orientation="vertical"
+              >
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_margin="8dp"
+                android:background="@color/white"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/reviews"
+                android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+                android:textColor="@color/white"
+                />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_margin="8dp"
+                android:background="@color/white"
+                />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recycler_reviews"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                >
+
+            </android.support.v7.widget.RecyclerView>
+          </LinearLayout>
 
         </RelativeLayout>
       </android.support.v4.widget.NestedScrollView>

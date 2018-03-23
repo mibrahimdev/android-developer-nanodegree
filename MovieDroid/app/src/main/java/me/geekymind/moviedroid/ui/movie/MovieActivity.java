@@ -10,6 +10,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -34,6 +35,7 @@ public class MovieActivity extends AppCompatActivity {
   private ActivityMovieBinding activityMovieBinding;
   private MovieViewModel movieViewModel;
   private TrailersAdapter trailersAdapter;
+  private ReviewAdapter reviewAdapter;
 
   public static Intent startMovieActivityIntent(Context context, Movie movie) {
     Intent intent = new Intent(context, MovieActivity.class);
@@ -60,16 +62,18 @@ public class MovieActivity extends AppCompatActivity {
     RecyclerView recyclerView = activityMovieBinding.trailers;
     LinearLayoutManager layoutManager = new LinearLayoutManager(this);
     recyclerView.setLayoutManager(layoutManager);
+    recyclerView.addItemDecoration(
+        new DividerItemDecoration(this, DividerItemDecoration.HORIZONTAL));
     recyclerView.setHasFixedSize(true);
     recyclerView.setAdapter(trailersAdapter);
 
-    //trailersAdapter = new TrailersAdapter();
-    //RecyclerView recyclerView = activityMovieBinding.trailers;
-    //LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-    //recyclerView.setLayoutManager(layoutManager);
-    //recyclerView.setHasFixedSize(true);
-    //recyclerView.setAdapter(trailersAdapter);
-
+    reviewAdapter = new ReviewAdapter();
+    RecyclerView rv = activityMovieBinding.recyclerReviews;
+    LinearLayoutManager lm = new LinearLayoutManager(this);
+    rv.setLayoutManager(lm);
+    rv.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.HORIZONTAL));
+    rv.setHasFixedSize(true);
+    rv.setAdapter(reviewAdapter);
   }
 
   private void loadDetails(Movie movie) {
@@ -91,6 +95,7 @@ public class MovieActivity extends AppCompatActivity {
   private void loadReviewsAndTrailers() {
     movieViewModel.getMovieData().subscribe(movieDataHolder -> {
       trailersAdapter.setData(movieDataHolder.getTrailers());
+      reviewAdapter.setData(movieDataHolder.getReviews());
     }, throwable -> {
 
     });
