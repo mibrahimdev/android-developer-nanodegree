@@ -5,6 +5,8 @@ import io.reactivex.schedulers.Schedulers;
 import java.util.List;
 import me.geekymind.moviedroid.data.entity.Movie;
 import me.geekymind.moviedroid.data.entity.MoviedbResponse;
+import me.geekymind.moviedroid.data.entity.Trailer;
+import me.geekymind.moviedroid.data.entity.TrailersResponse;
 import me.geekymind.moviedroid.data.local.MoviesLocal;
 import me.geekymind.moviedroid.data.remote.MovieRemote;
 import me.geekymind.moviedroid.di.AppDependencies;
@@ -32,6 +34,13 @@ public class MoviesRepo implements MoviesRepository {
     return movieRemote.getMovies(filterType)
         .doAfterSuccess(moviedbResponse -> moviesLocal.saveFilter(filterType))
         .map(MoviedbResponse::getMovies)
+        .subscribeOn(Schedulers.io());
+  }
+
+  @Override
+  public Single<List<Trailer>> getTrailers(String movieId) {
+    return movieRemote.getTrailers(movieId)
+        .map(TrailersResponse::getTrailers)
         .subscribeOn(Schedulers.io());
   }
 }
