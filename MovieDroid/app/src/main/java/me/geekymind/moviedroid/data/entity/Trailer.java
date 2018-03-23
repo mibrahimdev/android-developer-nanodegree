@@ -84,4 +84,33 @@ public class Trailer {
   public void setType(String type) {
     Type = type;
   }
+
+  @Override
+  public String toString() {
+    return "Trailer{"
+        + "Id='"
+        + Id
+        + '\''
+        + ", Iso31661='"
+        + Iso31661
+        + '\''
+        + ", Iso6391='"
+        + Iso6391
+        + '\''
+        + ", Key='"
+        + Key
+        + '\''
+        + ", Name='"
+        + Name
+        + '\''
+        + ", Site='"
+        + Site
+        + '\''
+        + ", Size="
+        + Size
+        + ", Type='"
+        + Type
+        + '\''
+        + '}';
+  }
 }

@@ -1,6 +1,7 @@
 package me.geekymind.moviedroid.di;
 
 import android.app.Application;
+import me.geekymind.moviedroid.data.MoviesRepo;
 import me.geekymind.moviedroid.data.local.PreferenceHelper;
 import me.geekymind.moviedroid.data.remote.MovieRemote;
 import me.geekymind.moviedroid.data.remote.RemoteDataFactory;
@@ -28,6 +29,10 @@ public class AppDependencies {
 
   public static MovieRemote getMovieRemote() {
     return RemoteDataFactory.newMovieRemote();
+  }
+
+  public static MoviesRepo getMoviesRepo() {
+    return MoviesRepo.getInstance();
   }
 
   private static <T> void checkNotNull(T clazz) {

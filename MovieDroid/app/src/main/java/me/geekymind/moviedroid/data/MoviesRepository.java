@@ -4,6 +4,7 @@ import io.reactivex.Single;
 import java.util.List;
 import me.geekymind.moviedroid.data.entity.Movie;
 import me.geekymind.moviedroid.data.entity.Filter;
+import me.geekymind.moviedroid.data.entity.Review;
 import me.geekymind.moviedroid.data.entity.Trailer;
 
 /**
@@ -16,4 +17,6 @@ public interface MoviesRepository {
   Single<List<Movie>> getMovies(@Filter String filterType);
 
   Single<List<Trailer>> getTrailers(String movieId);
+
+  Single<List<Review>> getReviews(String movieId);
 }

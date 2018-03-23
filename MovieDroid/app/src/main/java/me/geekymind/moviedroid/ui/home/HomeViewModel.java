@@ -10,6 +10,7 @@ import java.util.List;
 import me.geekymind.moviedroid.data.MoviesRepo;
 import me.geekymind.moviedroid.data.MoviesRepository;
 import me.geekymind.moviedroid.data.entity.Movie;
+import me.geekymind.moviedroid.di.AppDependencies;
 
 /**
  * Created by Mohamed Ibrahim on 3/9/18.
@@ -20,12 +21,11 @@ public class HomeViewModel extends ViewModel {
   private PublishSubject<Boolean> isLoading = PublishSubject.create();
 
   public HomeViewModel() {
-    moviesRepository = new MoviesRepo();
+    moviesRepository = AppDependencies.getMoviesRepo();
   }
 
   public Single<List<Movie>> getMovies() {
     return moviesRepository.getMovies()
-        .doOnSubscribe(disposable -> isLoading.onNext(true))
         .compose(loadingTransformer())
         .observeOn(AndroidSchedulers.mainThread());
   }

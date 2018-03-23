@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 import me.geekymind.moviedroid.R;
 import me.geekymind.moviedroid.data.entity.Movie;
-import me.geekymind.moviedroid.databinding.GridItemMovieBinding;
+import me.geekymind.moviedroid.databinding.ItemGridMovieBinding;
 import me.geekymind.moviedroid.ui.movie.MovieActivity;
 
 /**
@@ -37,8 +37,8 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MoviesView
   @Override
   public MoviesViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
     LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
-    GridItemMovieBinding itemBinding =
-        DataBindingUtil.inflate(layoutInflater, R.layout.grid_item_movie, parent, false);
+    ItemGridMovieBinding itemBinding =
+        DataBindingUtil.inflate(layoutInflater, R.layout.item_grid_movie, parent, false);
     return new MoviesViewHolder(itemBinding);
   }
 
@@ -54,9 +54,9 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MoviesView
   }
 
   class MoviesViewHolder extends RecyclerView.ViewHolder {
-    private final GridItemMovieBinding binding;
+    private final ItemGridMovieBinding binding;
 
-    MoviesViewHolder(GridItemMovieBinding binding) {
+    MoviesViewHolder(ItemGridMovieBinding binding) {
       super(binding.getRoot());
       this.binding = binding;
     }

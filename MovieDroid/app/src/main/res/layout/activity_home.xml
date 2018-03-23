@@ -35,7 +35,7 @@
             android:layout_height="match_parent"
             app:layoutManager="GridLayoutManager"
             app:spanCount="2"
-            tools:listitem="@layout/grid_item_movie"
+            tools:listitem="@layout/item_grid_movie"
             >
         </android.support.v7.widget.RecyclerView>
       </FrameLayout>
