@@ -3,14 +3,12 @@ package me.geekymind.moviedroid.ui.movie;
 import android.databinding.DataBindingUtil;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 import java.util.ArrayList;
 import java.util.List;
 import me.geekymind.moviedroid.R;
 import me.geekymind.moviedroid.data.entity.Review;
 import me.geekymind.moviedroid.databinding.ItemReviewBinding;
-import me.geekymind.moviedroid.databinding.ItemTrailerBinding;
 
 /**
  * Created by Mohamed Ibrahim on 3/23/18.
