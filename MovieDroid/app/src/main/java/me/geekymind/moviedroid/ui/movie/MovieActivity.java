@@ -11,7 +11,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DividerItemDecoration;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -24,7 +23,6 @@ import me.geekymind.moviedroid.R;
 import me.geekymind.moviedroid.data.entity.Movie;
 import me.geekymind.moviedroid.databinding.ActivityMovieBinding;
 import me.geekymind.moviedroid.ui.MovieViewModelFactory;
-import me.geekymind.moviedroid.ui.home.MoviesAdapter;
 
 /**
  * Created by Mohamed Ibrahim on 3/10/18.

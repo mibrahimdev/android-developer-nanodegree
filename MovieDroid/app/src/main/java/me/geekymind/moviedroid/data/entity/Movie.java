@@ -1,156 +1,147 @@
 package me.geekymind.moviedroid.data.entity;
 
+import android.arch.persistence.room.ColumnInfo;
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.PrimaryKey;
+import android.content.ContentValues;
 import android.os.Parcel;
 import android.os.Parcelable;
 import com.google.gson.annotations.SerializedName;
 import java.util.ArrayList;
 import java.util.List;
-import me.geekymind.moviedroid.data.remote.MovieRemote;
-import me.geekymind.moviedroid.data.remote.RemoteDataFactory;
 
+@Entity(tableName = Movie.TABLE_NAME)
 public class Movie implements Parcelable {
 
   private static final String IMAGE_BASE_URL = "http://image.tmdb.org/t/p/w185/";
+  public static final String TABLE_NAME = "favorites";
+  public static final String COLUMN_ID = "_ID";
+  public static final String COLUMN_TITLE = "_title";
+  public static final String COLUMN_VOTE_AVERAGE = "vote_average";
+  public static final String COLUMN_OVERVIEW = "_overview";
+  public static final String COLUMN_RELEASE_DATE = "_release_date";
+  public static final String COLUMN_POSTER_PATH = "_poster_path";
+
+  @SerializedName("id")
+  @ColumnInfo(name = COLUMN_ID)
+  @PrimaryKey(autoGenerate = false)
+  private Long id;
 
   @SerializedName("adult")
-  private Boolean Adult;
+  private Boolean adult;
+
   @SerializedName("backdrop_path")
-  private String BackdropPath;
+  private String backdropPath;
+
   @SerializedName("genre_ids")
-  private List<Long> GenreIds;
-  @SerializedName("id")
-  private Long Id;
+  private List<Long> genreIds;
+
   @SerializedName("original_language")
-  private String OriginalLanguage;
+  private String originalLanguage;
+
   @SerializedName("original_title")
-  private String OriginalTitle;
+  private String originaltitle;
+
+  @ColumnInfo(name = COLUMN_OVERVIEW)
   @SerializedName("overview")
-  private String Overview;
+  private String overview;
+
   @SerializedName("popularity")
-  private Double Popularity;
+  private Double popularity;
+
+  @ColumnInfo(name = COLUMN_POSTER_PATH)
   @SerializedName("poster_path")
-  private String PosterPath;
+  private String posterPath;
+
+  @ColumnInfo(name = COLUMN_RELEASE_DATE)
   @SerializedName("release_date")
-  private String ReleaseDate;
+  private String releaseDate;
+
+  @ColumnInfo(name = COLUMN_TITLE)
   @SerializedName("title")
-  private String Title;
+  private String title;
+
   @SerializedName("video")
-  private Boolean Video;
+  private Boolean video;
+
+  @ColumnInfo(name = COLUMN_VOTE_AVERAGE)
   @SerializedName("vote_average")
-  private double VoteAverage;
+  private double voteAverage;
+
   @SerializedName("vote_count")
-  private double VoteCount;
+  private double voteCount;
 
-  public Boolean getAdult() {
-    return Adult;
-  }
+  private boolean isFavorite;
 
-  public void setAdult(Boolean adult) {
-    Adult = adult;
-  }
 
-  public String getBackdropPath() {
-    return BackdropPath;
-  }
-
-  public void setBackdropPath(String backdropPath) {
-    BackdropPath = backdropPath;
-  }
-
-  public List<Long> getGenreIds() {
-    return GenreIds;
-  }
-
-  public void setGenreIds(List<Long> genreIds) {
-    GenreIds = genreIds;
+  public static Movie fromContentValues(ContentValues values) {
+    final Movie movie = new Movie();
+    if (values.containsKey(Movie.COLUMN_ID)) {
+      movie.setId(values.getAsLong(COLUMN_ID));
+      movie.setReleaseDate(values.getAsString(COLUMN_RELEASE_DATE));
+      movie.setPosterPath(values.getAsString(COLUMN_POSTER_PATH));
+      movie.setTitle(values.getAsString(COLUMN_TITLE));
+      movie.setOverview(values.getAsString(COLUMN_OVERVIEW));
+      movie.setVoteAverage(values.getAsDouble(COLUMN_VOTE_AVERAGE));
+      return movie;
+    }
+    return null;
   }
 
   public Long getId() {
-    return Id;
+    return id;
   }
 
   public void setId(Long id) {
-    Id = id;
-  }
-
-  public String getOriginalLanguage() {
-    return OriginalLanguage;
-  }
-
-  public void setOriginalLanguage(String originalLanguage) {
-    OriginalLanguage = originalLanguage;
-  }
-
-  public String getOriginalTitle() {
-    return OriginalTitle;
-  }
-
-  public void setOriginalTitle(String originalTitle) {
-    OriginalTitle = originalTitle;
+    this.id = id;
   }
 
   public String getOverview() {
-    return Overview;
+    return overview;
   }
 
   public void setOverview(String overview) {
-    Overview = overview;
-  }
-
-  public Double getPopularity() {
-    return Popularity;
-  }
-
-  public void setPopularity(Double popularity) {
-    Popularity = popularity;
+    this.overview = overview;
   }
 
   public String getPosterPath() {
-    return IMAGE_BASE_URL + PosterPath;
+    return IMAGE_BASE_URL + posterPath;
   }
 
   public void setPosterPath(String posterPath) {
-    PosterPath = posterPath;
+    this.posterPath = posterPath;
   }
 
   public String getReleaseDate() {
-    return ReleaseDate;
+    return releaseDate;
   }
 
   public void setReleaseDate(String releaseDate) {
-    ReleaseDate = releaseDate;
+    this.releaseDate = releaseDate;
   }
 
   public String getTitle() {
-    return Title;
+    return title;
   }
 
   public void setTitle(String title) {
-    Title = title;
-  }
-
-  public Boolean getVideo() {
-    return Video;
-  }
-
-  public void setVideo(Boolean video) {
-    Video = video;
+    this.title = title;
   }
 
   public double getVoteAverage() {
-    return VoteAverage;
+    return voteAverage;
   }
 
-  public void setVoteAverage(Long voteAverage) {
-    VoteAverage = voteAverage;
+  public void setVoteAverage(double voteAverage) {
+    this.voteAverage = voteAverage;
   }
 
-  public double getVoteCount() {
-    return VoteCount;
+  public boolean isFavorite() {
+    return isFavorite;
   }
 
-  public void setVoteCount(Long voteCount) {
-    VoteCount = voteCount;
+  public void setFavorite(boolean favorite) {
+    isFavorite = favorite;
   }
 
   @Override
@@ -160,41 +151,43 @@ public class Movie implements Parcelable {
 
   @Override
   public void writeToParcel(Parcel dest, int flags) {
-    dest.writeValue(this.Adult);
-    dest.writeString(this.BackdropPath);
-    dest.writeList(this.GenreIds);
-    dest.writeValue(this.Id);
-    dest.writeString(this.OriginalLanguage);
-    dest.writeString(this.OriginalTitle);
-    dest.writeString(this.Overview);
-    dest.writeValue(this.Popularity);
-    dest.writeString(this.PosterPath);
-    dest.writeString(this.ReleaseDate);
-    dest.writeString(this.Title);
-    dest.writeValue(this.Video);
-    dest.writeDouble(this.VoteAverage);
-    dest.writeDouble(this.VoteCount);
+    dest.writeValue(this.id);
+    dest.writeValue(this.adult);
+    dest.writeString(this.backdropPath);
+    dest.writeList(this.genreIds);
+    dest.writeString(this.originalLanguage);
+    dest.writeString(this.originaltitle);
+    dest.writeString(this.overview);
+    dest.writeValue(this.popularity);
+    dest.writeString(this.posterPath);
+    dest.writeString(this.releaseDate);
+    dest.writeString(this.title);
+    dest.writeValue(this.video);
+    dest.writeDouble(this.voteAverage);
+    dest.writeDouble(this.voteCount);
+    dest.writeByte(this.isFavorite ? (byte) 1 : (byte) 0);
   }
 
   public Movie() {
   }
 
   protected Movie(Parcel in) {
-    this.Adult = (Boolean) in.readValue(Boolean.class.getClassLoader());
-    this.BackdropPath = in.readString();
-    this.GenreIds = new ArrayList<Long>();
-    in.readList(this.GenreIds, Long.class.getClassLoader());
-    this.Id = (Long) in.readValue(Long.class.getClassLoader());
-    this.OriginalLanguage = in.readString();
-    this.OriginalTitle = in.readString();
-    this.Overview = in.readString();
-    this.Popularity = (Double) in.readValue(Double.class.getClassLoader());
-    this.PosterPath = in.readString();
-    this.ReleaseDate = in.readString();
-    this.Title = in.readString();
-    this.Video = (Boolean) in.readValue(Boolean.class.getClassLoader());
-    this.VoteAverage = in.readDouble();
-    this.VoteCount = in.readDouble();
+    this.id = (Long) in.readValue(Long.class.getClassLoader());
+    this.adult = (Boolean) in.readValue(Boolean.class.getClassLoader());
+    this.backdropPath = in.readString();
+    this.genreIds = new ArrayList<Long>();
+    in.readList(this.genreIds, Long.class.getClassLoader());
+    this.originalLanguage = in.readString();
+    this.originaltitle = in.readString();
+    this.overview = in.readString();
+    this.popularity = (Double) in.readValue(Double.class.getClassLoader());
+    this.posterPath = in.readString();
+    this.releaseDate = in.readString();
+    this.title = in.readString();
+    this.video = (Boolean) in.readValue(Boolean.class.getClassLoader());
+    this.voteAverage = in.readDouble();
+    this.voteCount = in.readDouble();
+    this.isFavorite = in.readByte() != 0;
   }
 
   public static final Creator<Movie> CREATOR = new Creator<Movie>() {

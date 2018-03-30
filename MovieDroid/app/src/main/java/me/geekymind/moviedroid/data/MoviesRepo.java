@@ -1,6 +1,8 @@
 package me.geekymind.moviedroid.data;
 
+import io.reactivex.Observable;
 import io.reactivex.Single;
+import io.reactivex.functions.BiFunction;
 import io.reactivex.schedulers.Schedulers;
 import java.util.List;
 import me.geekymind.moviedroid.data.entity.Movie;
@@ -10,6 +12,7 @@ import me.geekymind.moviedroid.data.entity.ReviewResponse;
 import me.geekymind.moviedroid.data.entity.Trailer;
 import me.geekymind.moviedroid.data.entity.TrailersResponse;
 import me.geekymind.moviedroid.data.local.MoviesLocal;
+import me.geekymind.moviedroid.data.provider.ProviderViewModel;
 import me.geekymind.moviedroid.data.remote.MovieRemote;
 import me.geekymind.moviedroid.di.AppDependencies;
 
@@ -20,12 +23,13 @@ public class MoviesRepo implements MoviesRepository {
 
   private final MovieRemote movieRemote;
   private final MoviesLocal moviesLocal;
-
+  private final ProviderViewModel providerViewModel;
   private static MoviesRepo instance;
 
   private MoviesRepo() {
     movieRemote = AppDependencies.getMovieRemote();
     moviesLocal = AppDependencies.getPrefHelperInstance();
+    providerViewModel = AppDependencies.getProviderViewModel();
   }
 
   public static MoviesRepo getInstance() {
@@ -42,10 +46,23 @@ public class MoviesRepo implements MoviesRepository {
 
   @Override
   public Single<List<Movie>> getMovies(String filterType) {
+    //TODO: handle Favorites filter
     return movieRemote.getMovies(filterType)
         .doAfterSuccess(moviedbResponse -> moviesLocal.saveFilter(filterType))
         .map(MoviedbResponse::getMovies)
+        .toObservable()
+        .flatMapIterable(movies -> movies)
+        .flatMap(movie -> Observable.just(movie)
+            .zipWith(isFavorite(movie), (movieToTest, isFavorite) -> {
+              movieToTest.setFavorite(isFavorite);
+              return movieToTest;
+            }))
+        .toList()
         .subscribeOn(Schedulers.io());
+  }
+
+  private Observable<Boolean> isFavorite(Movie movie) {
+    return providerViewModel.isFavorite(movie.getId()).toObservable();
   }
 
   @Override

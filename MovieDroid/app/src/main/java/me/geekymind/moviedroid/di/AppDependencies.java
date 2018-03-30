@@ -3,6 +3,7 @@ package me.geekymind.moviedroid.di;
 import android.app.Application;
 import me.geekymind.moviedroid.data.MoviesRepo;
 import me.geekymind.moviedroid.data.local.PreferenceHelper;
+import me.geekymind.moviedroid.data.provider.ProviderViewModel;
 import me.geekymind.moviedroid.data.remote.MovieRemote;
 import me.geekymind.moviedroid.data.remote.RemoteDataFactory;
 
@@ -15,16 +16,25 @@ public class AppDependencies {
   }
 
   private static PreferenceHelper prefHelperInstance;
+  private static ProviderViewModel providerViewModel;
 
   public static void createGraph(Application application) {
     if (prefHelperInstance == null) {
       prefHelperInstance = new PreferenceHelper(application);
+    }
+    if (providerViewModel == null) {
+      providerViewModel = new ProviderViewModel(application);
     }
   }
 
   public static PreferenceHelper getPrefHelperInstance() {
     checkNotNull(prefHelperInstance);
     return prefHelperInstance;
+  }
+
+  public static ProviderViewModel getProviderViewModel() {
+    checkNotNull(providerViewModel);
+    return providerViewModel;
   }
 
   public static MovieRemote getMovieRemote() {

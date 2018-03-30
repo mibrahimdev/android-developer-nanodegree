@@ -22,6 +22,12 @@
       </intent-filter>
     </activity>
     <activity android:name=".ui.movie.MovieActivity"/>
+
+    <provider
+        android:name=".data.provider.FavoritesContentProvider"
+        android:authorities="me.geekymind.moviedroid.data.provider"
+        android:exported="true"
+        android:permission="com.example.android.contentprovidersample.provider.READ_WRITE"/>
   </application>
 
 </manifest>
