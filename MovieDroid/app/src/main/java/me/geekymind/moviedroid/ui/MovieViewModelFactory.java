@@ -2,9 +2,7 @@ package me.geekymind.moviedroid.ui;
 
 import android.arch.lifecycle.ViewModel;
 import android.arch.lifecycle.ViewModelProvider;
-import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
+import me.geekymind.moviedroid.data.entity.Movie;
 import me.geekymind.moviedroid.ui.movie.MovieViewModel;
 
 /**
@@ -12,9 +10,9 @@ import me.geekymind.moviedroid.ui.movie.MovieViewModel;
  */
 public class MovieViewModelFactory extends ViewModelProvider.NewInstanceFactory {
 
-  private Long mParam;
+  private Movie mParam;
 
-  public MovieViewModelFactory(Long param) {
+  public MovieViewModelFactory(Movie param) {
     mParam = param;
   }
 

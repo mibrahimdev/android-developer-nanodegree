@@ -1,4 +1,4 @@
-package me.geekymind.moviedroid.data.local;
+package me.geekymind.moviedroid.data.local.provider;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;

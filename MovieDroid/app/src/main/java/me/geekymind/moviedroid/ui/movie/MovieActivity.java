@@ -1,5 +1,6 @@
 package me.geekymind.moviedroid.ui.movie;
 
+import android.annotation.SuppressLint;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.Intent;
@@ -46,8 +47,9 @@ public class MovieActivity extends AppCompatActivity {
     super.onCreate(savedInstanceState);
     activityMovieBinding = DataBindingUtil.setContentView(this, R.layout.activity_movie);
     Movie movie = getIntent().getParcelableExtra(MOVIE_EXTRA_KEY);
-    movieViewModel = ViewModelProviders.of(this, new MovieViewModelFactory(movie.getId()))
-        .get(MovieViewModel.class);
+    movieViewModel =
+        ViewModelProviders.of(this, new MovieViewModelFactory(movie)).get(MovieViewModel.class);
+    invalidateOptionsMenu();
 
     setupToolbar();
     setupRecyclers();
@@ -90,6 +92,7 @@ public class MovieActivity extends AppCompatActivity {
     loadReviewsAndTrailers();
   }
 
+  @SuppressLint("CheckResult")
   private void loadReviewsAndTrailers() {
     movieViewModel.getMovieData().subscribe(movieDataHolder -> {
       trailersAdapter.setData(movieDataHolder.getTrailers());
@@ -149,8 +152,25 @@ public class MovieActivity extends AppCompatActivity {
       case R.id.action_share_movie:
         break;
       case R.id.action_favorite:
+        movieViewModel.handleFavoriteAction().subscribe(isFavorite -> {
+          invalidateOptionsMenu();
+        }, throwable -> {
+          Toast.makeText(this, "Sorry Operation is not available now", Toast.LENGTH_SHORT).show();
+        });
         break;
     }
     return super.onOptionsItemSelected(item);
+  }
+
+  @Override
+  public boolean onPrepareOptionsMenu(Menu menu) {
+    if (movieViewModel != null) {
+      MenuItem item = menu.findItem(R.id.action_favorite);
+      if (item != null) {
+        item.setIcon(movieViewModel.isFavorite() ? R.drawable.ic_favorite_white_24dp
+            : R.drawable.ic_favorite_border_white_24dp);
+      }
+    }
+    return super.onPrepareOptionsMenu(menu);
   }
 }

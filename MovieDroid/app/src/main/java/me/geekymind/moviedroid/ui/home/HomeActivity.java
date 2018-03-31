@@ -1,5 +1,6 @@
 package me.geekymind.moviedroid.ui.home;
 
+import android.annotation.SuppressLint;
 import android.arch.lifecycle.ViewModelProviders;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
@@ -53,11 +54,14 @@ public class HomeActivity extends AppCompatActivity {
       loadMovies(Filter.POPULAR);
     } else if (i == R.id.top_rated) {
       loadMovies(Filter.TOP_RATED);
+    } else if (i == R.id.favorites) {
+      loadMovies(Filter.FAVORITES);
     }
     return super.onOptionsItemSelected(item);
   }
 
   //TODO: Duplicate code need more enhancements
+  @SuppressLint("CheckResult")
   private void loadMovies(String filter) {
     homeViewModel.getMovies(filter).subscribe(movies -> {
       moviesAdapter.setData(movies);
@@ -66,14 +70,14 @@ public class HomeActivity extends AppCompatActivity {
     });
   }
 
+  @SuppressLint("CheckResult")
   private void loadMovies() {
-    homeViewModel.getMovies().subscribe(movies -> {
-      moviesAdapter.setData(movies);
-    }, throwable -> {
+    homeViewModel.getMovies().subscribe(moviesAdapter::setData, throwable -> {
       Toast.makeText(this, throwable.getMessage(), Toast.LENGTH_LONG).show();
     });
   }
 
+  @SuppressLint("CheckResult")
   private void setupRecycler() {
     moviesAdapter = new MoviesAdapter();
     RecyclerView recyclerView = viewDataBinding.recyclerView;
@@ -81,5 +85,15 @@ public class HomeActivity extends AppCompatActivity {
     recyclerView.setLayoutManager(layoutManager);
     recyclerView.setHasFixedSize(true);
     recyclerView.setAdapter(moviesAdapter);
+
+    homeViewModel.onUpdatedMovie().subscribe(adapterAction -> {
+      if (adapterAction.getAction() == AdapterAction.Action.REMOVE) {
+        moviesAdapter.removeItem(adapterAction.getMovie());
+      } else if (adapterAction.getAction() == AdapterAction.Action.ADDED) {
+        moviesAdapter.addItem(adapterAction.getMovie());
+      } else {
+        moviesAdapter.updateItem(adapterAction.getMovie());
+      }
+    });
   }
 }

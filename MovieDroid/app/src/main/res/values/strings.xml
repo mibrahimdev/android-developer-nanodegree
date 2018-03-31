@@ -7,4 +7,5 @@
   <string name="poster">MoviePoster</string>
   <string name="trailers">Trailers</string>
   <string name="reviews">Reviews</string>
+  <string name="favorites">Favorites</string>
 </resources>

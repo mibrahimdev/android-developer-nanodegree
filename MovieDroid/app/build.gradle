@@ -16,6 +16,7 @@ android {
     versionName "1.0"
     testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     buildConfigField 'String', 'API_KEY', API_KEY
+    vectorDrawables.useSupportLibrary = true
   }
   buildTypes {
     release {
@@ -44,16 +45,6 @@ dependencies {
 
   //arch components
   implementation "android.arch.lifecycle:extensions:1.1.1"
-  //Room
-  implementation "android.arch.persistence.room:runtime:1.0.0"
-  annotationProcessor "android.arch.persistence.room:compiler:1.0.0"
-  implementation "android.arch.persistence.room:rxjava2:1.0.0"
-
-
-  // Room (use 1.1.0-beta1 for latest beta)
-//  implementation "android.arch.persistence.room:runtime:1.1.0-beta1"
-//  annotationProcessor "android.arch.persistence.room:compiler:1.1.0-beta1"
-
 
 
   //Networking

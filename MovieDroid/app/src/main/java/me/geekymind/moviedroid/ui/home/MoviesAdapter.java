@@ -34,6 +34,35 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MoviesView
     notifyDataSetChanged();
   }
 
+  public void updateItem(Movie movie) {
+    for (int i = 0; i < movies.size(); i++) {
+      Movie item = movies.get(i);
+      if (movie.getId().equals(item.getId())) {
+        //TODO: there is a bug when use notifyItemChanged with image transition
+        item.setFavorite(movie.isFavorite());
+        notifyItemChanged(i);
+        break;
+      }
+    }
+  }
+
+  public void removeItem(Movie movie) {
+    for (int i = 0; i < movies.size(); i++) {
+      Movie item = movies.get(i);
+      if (movie.getId().equals(item.getId())) {
+        //TODO: there is a bug when use notifyItemChanged with image transition
+        movies.remove(i);
+        notifyItemRemoved(i);
+        break;
+      }
+    }
+  }
+
+  public void addItem(Movie movie) {
+    movies.add(movie);
+    notifyItemInserted(movies.size() - 1);
+  }
+
   @Override
   public MoviesViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
     LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
@@ -67,9 +96,8 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MoviesView
       int defaultColor = resources.getColor(R.color.blue_grey_900);
       binding.movieTitle.setText(movie.getTitle());
       binding.releaseYear.setText(movie.getReleaseDate());
-
+      binding.isFavorite.setVisibility(movie.isFavorite() ? View.VISIBLE : View.GONE);
       binding.posterCard.setOnClickListener(v -> {
-
         View sharedView = binding.moviePoster;
         String transitionName = resources.getString(R.string.poster);
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {

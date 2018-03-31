@@ -24,8 +24,8 @@
     <activity android:name=".ui.movie.MovieActivity"/>
 
     <provider
-        android:name=".data.provider.FavoritesContentProvider"
-        android:authorities="me.geekymind.moviedroid.data.provider"
+        android:name=".data.local.provider.MoviesProvider"
+        android:authorities="me.geekymind.moviedroid.data.local.provider"
         android:exported="true"
         android:permission="com.example.android.contentprovidersample.provider.READ_WRITE"/>
   </application>
