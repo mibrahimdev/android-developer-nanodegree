@@ -7,6 +7,7 @@ import io.reactivex.Single;
 import io.reactivex.SingleTransformer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.subjects.PublishSubject;
+import java.util.Collections;
 import java.util.List;
 import me.geekymind.moviedroid.data.MoviesRepo;
 import me.geekymind.moviedroid.data.MoviesRepository;
@@ -22,6 +23,7 @@ public class HomeViewModel extends ViewModel {
 
   private final MoviesRepository moviesRepository;
   private PublishSubject<Boolean> isLoading = PublishSubject.create();
+  private List<Movie> movies = Collections.emptyList();
 
   public HomeViewModel() {
     moviesRepository = AppDependencies.getMoviesRepo();

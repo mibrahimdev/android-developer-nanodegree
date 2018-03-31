@@ -23,6 +23,7 @@ public class MoviesRepo implements MoviesRepository {
 
   private final MovieRemote movieRemote;
   private final MoviesLocal moviesLocal;
+
   private static MoviesRepo instance;
 
   private MoviesRepo() {
