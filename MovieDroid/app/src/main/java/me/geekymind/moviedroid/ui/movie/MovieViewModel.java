@@ -54,11 +54,16 @@ public class MovieViewModel extends ViewModel {
           }
         })
         .singleOrError()
-        .doAfterSuccess(movie::setFavorite)
+        .doOnSuccess(movie::setFavorite)
         .doFinally(() -> RxEventBus.getInstance().post(movie));
   }
 
   public boolean isFavorite() {
     return movie.isFavorite();
+  }
+
+  @Override
+  protected void onCleared() {
+    super.onCleared();
   }
 }

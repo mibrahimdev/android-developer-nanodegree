@@ -53,18 +53,23 @@ public class MoviesRepo implements MoviesRepository {
           }
         })
         .flatMapIterable(movies -> movies)
-        .flatMap(movie -> Observable.just(movie)
-            .zipWith(isFavorite(movie), (movieToTest, isFavorite) -> {
-              movieToTest.setFavorite(isFavorite);
-              return movieToTest;
-            }))
         .toList()
         .doAfterSuccess(movies -> moviesLocal.saveFilter(filterType))
         .subscribeOn(Schedulers.io());
   }
 
   private Observable<List<Movie>> getRemoteObservable(String filterType) {
-    return movieRemote.getMovies(filterType).map(MoviedbResponse::getMovies).toObservable();
+    return movieRemote.getMovies(filterType)
+        .map(MoviedbResponse::getMovies)
+        .toObservable()
+        .flatMapIterable(movies -> movies)
+        .flatMap(movie -> Observable.just(movie)
+            .zipWith(isFavorite(movie), (movieToTest, isFavorite) -> {
+              movieToTest.setFavorite(isFavorite);
+              return movieToTest;
+            }))
+        .toList()
+        .toObservable();
   }
 
   @Override
@@ -79,7 +84,10 @@ public class MoviesRepo implements MoviesRepository {
 
   @Override
   public Observable<List<Movie>> getAllFavorites() {
-    return moviesLocal.getAllFavorites();
+    return moviesLocal.getAllFavorites().flatMapIterable(movies -> movies).map(movie -> {
+      movie.setFavorite(true);
+      return movie;
+    }).toList().toObservable();
   }
 
   @Override

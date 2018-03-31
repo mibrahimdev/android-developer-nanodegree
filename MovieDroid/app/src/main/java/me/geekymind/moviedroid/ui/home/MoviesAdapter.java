@@ -60,7 +60,7 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MoviesView
 
   public void addItem(Movie movie) {
     movies.add(movie);
-    notifyItemInserted(movies.size() - 1);
+    notifyDataSetChanged();
   }
 
   @Override

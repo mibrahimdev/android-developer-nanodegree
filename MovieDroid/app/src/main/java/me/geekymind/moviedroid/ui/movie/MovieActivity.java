@@ -36,6 +36,7 @@ public class MovieActivity extends AppCompatActivity {
   private TrailersAdapter trailersAdapter;
   private ReviewAdapter reviewAdapter;
 
+
   public static Intent startMovieActivityIntent(Context context, Movie movie) {
     Intent intent = new Intent(context, MovieActivity.class);
     intent.putExtra(MOVIE_EXTRA_KEY, movie);
