@@ -111,7 +111,7 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MoviesView
         }
       });
 
-      Picasso.get().load(movie.getPosterPath()).into(new Target() {
+      Picasso.get().load(movie.getCorrectPosterPath()).into(new Target() {
         @Override
         public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
           Palette.from(bitmap).generate(asyncListener -> {

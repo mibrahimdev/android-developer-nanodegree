@@ -78,7 +78,7 @@ public class MovieActivity extends AppCompatActivity {
 
   private void loadDetails(Movie movie) {
     Picasso.get()
-        .load(movie.getPosterPath())
+        .load(movie.getCorrectPosterPath())
         .placeholder(R.drawable.ic_local_movies_white_24dp)
         .error(R.drawable.ic_error_outline_white_24dp)
         .into(activityMovieBinding.moviePoster);
@@ -108,7 +108,7 @@ public class MovieActivity extends AppCompatActivity {
   }
 
   private void loadBackground(Movie movie) {
-    Picasso.get().load(movie.getPosterPath()).into(new Target() {
+    Picasso.get().load(movie.getCorrectPosterPath()).into(new Target() {
       @Override
       public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
         BitmapDrawable imageDrawable = new BitmapDrawable(getResources(), bitmap);

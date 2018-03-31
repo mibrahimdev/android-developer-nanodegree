@@ -9,7 +9,7 @@ import java.util.List;
 
 public class Movie implements Parcelable {
 
-  private static final String IMAGE_BASE_URL = "http://image.tmdb.org/t/p/w185/";
+  public static final String IMAGE_BASE_URL = "http://image.tmdb.org/t/p/w185/";
 
   private Long id;
 
@@ -81,6 +81,10 @@ public class Movie implements Parcelable {
   }
 
   public String getPosterPath() {
+    return posterPath;
+  }
+
+  public String getCorrectPosterPath(){
     return IMAGE_BASE_URL + posterPath;
   }
 

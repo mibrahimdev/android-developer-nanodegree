@@ -2,9 +2,7 @@ package me.geekymind.moviedroid.data;
 
 import io.reactivex.Completable;
 import io.reactivex.Observable;
-import io.reactivex.ObservableSource;
 import io.reactivex.Single;
-import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 import java.util.List;
 import me.geekymind.moviedroid.data.entity.Filter;
@@ -15,7 +13,6 @@ import me.geekymind.moviedroid.data.entity.ReviewResponse;
 import me.geekymind.moviedroid.data.entity.Trailer;
 import me.geekymind.moviedroid.data.entity.TrailersResponse;
 import me.geekymind.moviedroid.data.local.MoviesLocal;
-import me.geekymind.moviedroid.data.local.ProviderViewModel;
 import me.geekymind.moviedroid.data.remote.MovieRemote;
 import me.geekymind.moviedroid.di.AppDependencies;
 
@@ -52,7 +49,7 @@ public class MoviesRepo implements MoviesRepository {
           if (s.equals(Filter.FAVORITES)) {
             return getAllFavorites();
           } else {
-            return movieRemote.getMovies(filterType).map(MoviedbResponse::getMovies).toObservable();
+            return getRemoteObservable(filterType);
           }
         })
         .flatMapIterable(movies -> movies)
@@ -64,6 +61,10 @@ public class MoviesRepo implements MoviesRepository {
         .toList()
         .doAfterSuccess(movies -> moviesLocal.saveFilter(filterType))
         .subscribeOn(Schedulers.io());
+  }
+
+  private Observable<List<Movie>> getRemoteObservable(String filterType) {
+    return movieRemote.getMovies(filterType).map(MoviedbResponse::getMovies).toObservable();
   }
 
   @Override
