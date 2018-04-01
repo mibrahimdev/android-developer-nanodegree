@@ -9,6 +9,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.subjects.PublishSubject;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import me.geekymind.moviedroid.data.MoviesRepo;
 import me.geekymind.moviedroid.data.MoviesRepository;
 import me.geekymind.moviedroid.data.entity.Filter;
@@ -24,21 +25,27 @@ public class HomeViewModel extends ViewModel {
   private final MoviesRepository moviesRepository;
   private PublishSubject<Boolean> isLoading = PublishSubject.create();
   private List<Movie> movies = Collections.emptyList();
+  private @Filter
+  String filter;
 
   public HomeViewModel() {
     moviesRepository = AppDependencies.getMoviesRepo();
   }
 
   public Single<List<Movie>> getMovies() {
-    return moviesRepository.getMovies()
+    return movies.isEmpty() ? moviesRepository.getMovies()
+        .doOnSuccess(state -> movies = state)
         .compose(loadingTransformer())
-        .observeOn(AndroidSchedulers.mainThread());
+        .observeOn(AndroidSchedulers.mainThread()) : Single.just(movies);
   }
 
   public Single<List<Movie>> getMovies(String filter) {
-    return moviesRepository.getMovies(filter)
+    return movies.isEmpty() || !Objects.equals(filter, this.filter) ?
+        moviesRepository.getMovies(filter)
+        .doOnSuccess(state -> movies = state)
+        .doOnSuccess(state -> this.filter = filter)
         .compose(loadingTransformer())
-        .observeOn(AndroidSchedulers.mainThread());
+        .observeOn(AndroidSchedulers.mainThread()) : Single.just(movies);
   }
 
   public Observable<Boolean> loading() {
